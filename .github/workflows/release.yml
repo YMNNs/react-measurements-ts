@@ -22,12 +22,12 @@ jobs:
           registry-url: https://registry.npmjs.org/
       - name: Install
         run: |
-          - npm ci
-          - ll
+          npm ci
+          ll
       - name: Generate Changelog
         run: |
-          - npm run changelog
-          - cat CHANGELOG.md
+          npm run changelog
+          cat CHANGELOG.md
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
