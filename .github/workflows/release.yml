@@ -25,6 +25,7 @@ jobs:
           body_path: ${{github.workspace}}/CHANGELOG.md
 
   publish-npm:
+    needs: release
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
