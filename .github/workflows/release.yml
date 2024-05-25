@@ -24,14 +24,10 @@ jobs:
         run: |
           npm ci
           ls
-      - name: Generate Changelog
-        run: |
-          npm run changelog
-          cat CHANGELOG.md
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
-          body_path: ${{github.workspace}}/CHANGELOG.md
+          body_path: ${{github.workspace}}/CHANGELOG-latest.md
       - name: Publish
         run: npm publish
         env:

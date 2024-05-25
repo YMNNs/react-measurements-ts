@@ -30,7 +30,8 @@
     "prepare": "husky",
     "prepublishOnly": "npm run build:lib",
     "preview": "vite preview",
-    "changelog": "conventional-changelog -p angular -o CHANGELOG.md -r 2 -v"
+    "changelog-latest": "conventional-changelog -p angular -o CHANGELOG-latest.md -r 2",
+    "preversion": "npm run changelog-latest && git add . && git commit --amend --no-edit"
   },
   "lint-staged": {
     "*.md": "lint-md -f",
