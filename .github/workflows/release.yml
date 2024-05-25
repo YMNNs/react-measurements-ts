@@ -15,8 +15,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Install
+        run: npm ci
+      - name: Generate Changelog
+        run: npm run changelog
       - name: Release
         uses: softprops/action-gh-release@v2
+        with:
+          body_path: ${{github.workspace}}-CHANGELOG.md
 
   publish-npm:
     runs-on: ubuntu-latest
