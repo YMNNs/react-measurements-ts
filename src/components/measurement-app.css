@@ -94,6 +94,7 @@ a:hover {
 
 .square-parent {
   position: relative;
+  width: 800px;
   height: 500px;
 }
 
@@ -106,8 +107,8 @@ a:hover {
 }
 
 .measured-img {
-  width: 800px;
-  height: 500px;
+  height: 100%;
+  width: 100%;
 }
 
 @media all and (width >= 640px) {
