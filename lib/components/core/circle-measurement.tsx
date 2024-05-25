@@ -48,7 +48,7 @@ const CircleMeasurement: FC<Props> = ({
 
   const mouseXAtPress = useRef<number>(0)
   const mouseYAtPress = useRef<number>(0)
-  const circleAtPress = useRef<Partial<Circle>>({ centerX: 0, centerY: 0, radius: 0 })
+  const circleAtPress = useRef<Pick<Circle, 'centerX' | 'centerY' | 'radius'>>({ centerX: 0, centerY: 0, radius: 0 })
   const centerXAtPress = useRef<number>(0)
   const centerYAtPress = useRef<number>(0)
   const pointXAtPress = useRef<number>(0)
@@ -76,13 +76,13 @@ const CircleMeasurement: FC<Props> = ({
     mouseXAtPress.current = eventX
     mouseYAtPress.current = eventY
     circleAtPress.current = circle
-    centerXAtPress.current = circle.centerX * parentWidth
-    centerYAtPress.current = circle.centerY * parentHeight
+    centerXAtPress.current = circleAtPress.current.centerX * parentWidth
+    centerYAtPress.current = circleAtPress.current.centerY * parentHeight
 
     const rect = root.getBoundingClientRect()
     const centerClientX = centerXAtPress.current + rect.left
     const centerClientY = centerYAtPress.current + rect.top
-    const radiusAtPress = circle.radius * Math.sqrt(parentWidth * parentHeight)
+    const radiusAtPress = circleAtPress.current.radius * Math.sqrt(parentWidth * parentHeight)
     const theta = Math.atan2(mouseYAtPress.current - centerClientY, mouseXAtPress.current - centerClientX)
     pointXAtPress.current = radiusAtPress * Math.cos(theta)
     pointYAtPress.current = radiusAtPress * Math.sin(theta)
@@ -101,33 +101,33 @@ const CircleMeasurement: FC<Props> = ({
       const newPointY = pointYAtPress.current + eventY - mouseYAtPress.current
       const radiusInPixels = Math.max(Math.hypot(newPointX, newPointY), minRadiusInPx)
       let radius = radiusInPixels / Math.sqrt(parentWidth * parentHeight)
-
-      if (circle.centerX + radius > 1) {
-        radius = 1 - circle.centerX
+      if (circleAtPress.current.centerX + radius > 1) {
+        radius = 1 - circleAtPress.current.centerX
       }
-      if (circle.centerX - radius < 0) {
-        radius = circle.centerX
+      if (circleAtPress.current.centerX - radius < 0) {
+        radius = circleAtPress.current.centerX
       }
-      if (circle.centerY + radius > 1) {
-        radius = 1 - circle.centerY
+      if (circleAtPress.current.centerY + radius > 1) {
+        radius = 1 - circleAtPress.current.centerY
       }
-      if (circle.centerY - radius < 0) {
-        radius = circle.centerY
+      if (circleAtPress.current.centerY - radius < 0) {
+        radius = circleAtPress.current.centerY
       }
       onChange({ id: circle.id, radius })
     } else if (fillDragInProgress.current) {
+      const radiusInPixels = circleAtPress.current.radius * Math.sqrt(parentWidth * parentHeight)
       let centerX = (centerXAtPress.current + eventX - mouseXAtPress.current) / parentWidth
       let centerY = (centerYAtPress.current + eventY - mouseYAtPress.current) / parentHeight
 
-      if (centerX + circle.radius > 1) {
-        centerX = 1 - circle.radius
-      } else if (centerX - circle.radius < 0) {
-        centerX = circle.radius
+      if (centerX + radiusInPixels / parentWidth > 1) {
+        centerX = 1 - radiusInPixels / parentWidth
+      } else if (centerX < radiusInPixels / parentWidth) {
+        centerX = radiusInPixels / parentWidth
       }
-      if (centerY + circle.radius > 1) {
-        centerY = 1 - circle.radius
-      } else if (centerY - circle.radius < 0) {
-        centerY = circle.radius
+      if (centerY + radiusInPixels / parentHeight > 1) {
+        centerY = 1 - circleAtPress.current.radius
+      } else if (centerY < radiusInPixels / parentHeight) {
+        centerY = radiusInPixels / parentHeight
       }
       onChange({ id: circle.id, centerX, centerY })
     }

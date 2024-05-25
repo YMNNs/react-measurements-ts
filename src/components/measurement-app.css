@@ -6,7 +6,7 @@ body,
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Noto Sans", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Noto Sans', sans-serif;
   font-size: 10pt;
   color: #333;
   margin: 0;
@@ -33,7 +33,7 @@ body {
 
 .mobile-readonly-message {
   display: none;
-  margin: -15px 0 15px 0;
+  margin: -15px 0 15px;
 }
 
 .title-text {
@@ -58,7 +58,7 @@ a:hover {
 
 .content {
   position: relative;
-  padding: 10px 20px 20px 20px;
+  padding: 10px 20px 20px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -71,7 +71,7 @@ a:hover {
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-width: 500px;
+  max-width: 800px;
   visibility: hidden;
 }
 
@@ -86,17 +86,15 @@ a:hover {
   margin: 0;
   width: 100%;
   box-sizing: border-box;
-  background-color: rgb(235, 238, 240);
-  border-width: 0 1px 1px 1px;
+  background-color: rgb(235 238 240);
+  border-width: 0 1px 1px;
   border-style: solid;
-  border-color: rgb(207, 211, 214);
+  border-color: rgb(207 211 214);
 }
 
-/* The goal is that the child div is always square, i.e. the height is equal to the width. */
 .square-parent {
   position: relative;
-  padding-bottom: 100%;
-  height: 0;
+  height: 500px;
 }
 
 .square-child {
@@ -107,32 +105,32 @@ a:hover {
   height: 100%;
 }
 
-img {
-  max-width: 100%;
-  max-height: 100%;
+.measured-img {
+  width: 800px;
+  height: 500px;
 }
 
-@media all and (min-width: 640px) {
+@media all and (width >= 640px) {
   .container {
     min-height: 90%;
   }
 }
 
-@media all and (min-height: 750px) {
+@media all and (height >= 750px) {
   .measurements-body {
     max-width: 600px;
   }
 }
 
-@media all and (min-height: 1200px) {
+@media all and (height >= 1200px) {
   .measurements-body {
     max-width: 700px;
   }
 }
 
-@media all and (max-width: 520px) {
+@media all and (width <= 520px) {
   .content {
-    padding: 0 10px 10px 10px;
+    padding: 0 10px 10px;
   }
 
   .title-bar {
@@ -149,12 +147,12 @@ img {
 
   .mobile-readonly-message {
     font-size: 9pt;
-    margin: 3px 0 5px 0;
-    color: rgb(120, 120, 120);
+    margin: 3px 0 5px;
+    color: rgb(120 120 120);
   }
 }
 
-/*---------- Read-only if no mouse, DraftJS doesn't support touch yet. ----------*/
+/* ---------- Read-only if no mouse, DraftJS doesn't support touch yet. ---------- */
 
 @media not all and (pointer: fine) {
   .mobile-readonly-message {

@@ -70,7 +70,7 @@ const MeasuredImage: FC<Props> = ({ onImageLoaded }) => {
   return (
     <div className="square-parent">
       <div className="square-child">
-        <img src={pollenImage} alt="Pollen grains" ref={imageRef} onLoad={onLoad} />
+        <img src={pollenImage} className={'measured-img'} alt="Pollen grains" ref={imageRef} onLoad={onLoad} />
         <MeasurementLayer
           measurements={measurements}
           widthInPx={widthInPx}
