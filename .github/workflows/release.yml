@@ -10,30 +10,29 @@ permissions:
   contents: write
 
 jobs:
-  release:
+  release-and-publish:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          registry-url: https://registry.npmjs.org/
       - name: Install
-        run: npm ci
+        run: |
+          - npm ci
+          - ll
       - name: Generate Changelog
-        run: npm run changelog
+        run: |
+          - npm run changelog
+          - cat CHANGELOG.md
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
           body_path: ${{github.workspace}}/CHANGELOG.md
-
-  publish-npm:
-    needs: release
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '20.x'
-          registry-url: https://registry.npmjs.org/
-      - run: npm ci
-      - run: npm publish
+      - name: Publish
+        run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
