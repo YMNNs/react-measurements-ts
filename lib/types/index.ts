@@ -1,5 +1,10 @@
 import { type EditorState } from 'draft-js'
 
+interface MeasurementBase {
+  id: number
+  type: Mode
+}
+
 export interface Circle extends MeasurementBase {
   radius: number
   centerX: number
@@ -23,10 +28,5 @@ export interface Text extends MeasurementBase {
 }
 
 export type Mode = 'line' | 'circle' | 'text'
-
-export interface MeasurementBase {
-  id: number
-  type: Mode
-}
 
 export type Measurement = Line | Circle | Text
