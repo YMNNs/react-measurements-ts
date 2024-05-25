@@ -3,11 +3,8 @@ name: Create release
 on:
   push:
     tags:
-      - v*
+      - 'v*'
   workflow_dispatch:
-
-permissions:
-  contents: write
 
 jobs:
   release:
@@ -16,9 +13,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Create release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ github.ref_name }}
-        run: |
-          gh release create "$tag" --generate-notes --draft
+      - uses: marvinpinto/action-automatic-releases@latest
+        with:
+          repo_token: '${{ secrets.GITHUB_TOKEN }}'
+          prerelease: false
