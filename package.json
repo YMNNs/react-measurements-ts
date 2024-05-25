@@ -6,7 +6,7 @@
   "description": "A React component for measuring & annotating images. Rewritten with TypeScript.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/YMNNs/react-measurements-ts.git"
+    "url": "git+https://github.com/YMNNs/react-measurements-ts.git"
   },
   "homepage": "https://ymnns.github.io/react-measurements-ts/",
   "main": "dist/react-measurements-ts.js",
