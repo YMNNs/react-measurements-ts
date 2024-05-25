@@ -3,21 +3,17 @@ name: Create release
 on:
   push:
     tags:
-      - 'v*'
+      - 'v*.*.*'
   workflow_dispatch:
 
 permissions:
   contents: write
 
 jobs:
-  release:
-    name: Release pushed tag
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - uses: marvinpinto/action-automatic-releases@latest
-        with:
-          repo_token: '${{ secrets.GITHUB_TOKEN }}'
-          automatic_release_tag: 'latest'
-          prerelease: false
+      - name: Release
+        uses: softprops/action-gh-release@v2
