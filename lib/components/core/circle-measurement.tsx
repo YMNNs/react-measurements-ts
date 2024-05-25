@@ -125,7 +125,7 @@ const CircleMeasurement: FC<Props> = ({
         centerX = radiusInPixels / parentWidth
       }
       if (centerY + radiusInPixels / parentHeight > 1) {
-        centerY = 1 - circleAtPress.current.radius
+        centerY = 1 - radiusInPixels / parentHeight
       } else if (centerY < radiusInPixels / parentHeight) {
         centerY = radiusInPixels / parentHeight
       }

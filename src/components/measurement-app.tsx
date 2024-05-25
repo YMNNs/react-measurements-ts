@@ -12,7 +12,7 @@ const MeasurementApp: FC = () => {
     <div className="container">
       <div className="title-bar">
         <div className="title-bar-inner">
-          <span className="title-text">React Measurements</span>
+          <span className="title-text">React Measurements TS</span>
           <div className="splitter" />
           <a href="https://www.npmjs.com/package/react-measurements-ts">v{version}</a>
           <a href="https://github.com/YMNNs/react-measurements-ts">GitHub</a>
