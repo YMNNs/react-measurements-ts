@@ -100,20 +100,29 @@ const CircleMeasurement: FC<Props> = ({
       const newPointX = pointXAtPress.current + eventX - mouseXAtPress.current
       const newPointY = pointYAtPress.current + eventY - mouseYAtPress.current
       const radiusInPixels = Math.max(Math.hypot(newPointX, newPointY), minRadiusInPx)
-      let radius = radiusInPixels / Math.sqrt(parentWidth * parentHeight)
-      if (circleAtPress.current.centerX + radius > 1) {
-        radius = 1 - circleAtPress.current.centerX
+      let radius = radiusInPixels
+
+      let draggable = true
+
+      if (circleAtPress.current.centerX + radiusInPixels / parentWidth > 1) {
+        radius = (1 - circleAtPress.current.centerX) * parentWidth
+        draggable = false
       }
-      if (circleAtPress.current.centerX - radius < 0) {
-        radius = circleAtPress.current.centerX
+      if (circleAtPress.current.centerX - radiusInPixels / parentWidth < 0) {
+        radius = circleAtPress.current.centerX * parentWidth
+        draggable = false
       }
-      if (circleAtPress.current.centerY + radius > 1) {
-        radius = 1 - circleAtPress.current.centerY
+      if (circleAtPress.current.centerY + radiusInPixels / parentHeight > 1) {
+        radius = (1 - circleAtPress.current.centerY) * parentHeight
+        draggable = false
       }
-      if (circleAtPress.current.centerY - radius < 0) {
-        radius = circleAtPress.current.centerY
+      if (circleAtPress.current.centerY - radiusInPixels / parentHeight < 0) {
+        radius = circleAtPress.current.centerY * parentHeight
+        draggable = false
       }
-      onChange({ id: circle.id, radius })
+      if (draggable) {
+        onChange({ id: circle.id, radius: radius / Math.sqrt(parentWidth * parentHeight) })
+      }
     } else if (fillDragInProgress.current) {
       const radiusInPixels = circleAtPress.current.radius * Math.sqrt(parentWidth * parentHeight)
       let centerX = (centerXAtPress.current + eventX - mouseXAtPress.current) / parentWidth
