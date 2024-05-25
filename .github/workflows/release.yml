@@ -23,7 +23,7 @@ jobs:
       - name: Install
         run: |
           npm ci
-          ll
+          ls
       - name: Generate Changelog
         run: |
           npm run changelog
