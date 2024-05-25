@@ -1,0 +1,5 @@
+package-lock.json
+.idea/
+.husky/
+dist/
+demo/
