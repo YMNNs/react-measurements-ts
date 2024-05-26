@@ -48,9 +48,6 @@ const TextAnnotation: FC<Props> = ({ text, parentHeight, parentWidth, onChange, 
 
   useEffect(() => {
     updateMask()
-    if (!text.editable) {
-      propagateTextChanges.current = false
-    }
   })
 
   useEffect(() => {
@@ -58,7 +55,6 @@ const TextAnnotation: FC<Props> = ({ text, parentHeight, parentWidth, onChange, 
     document.addEventListener('keydown', onDocumentKeyDown, true)
     window.addEventListener('mouseup', onMouseUp)
     window.addEventListener('blur', endDrag)
-    updateMask()
     if (editorRef.current && text.editable) {
       propagateTextChanges.current = true
       editorRef.current.focus()
@@ -133,14 +129,13 @@ const TextAnnotation: FC<Props> = ({ text, parentHeight, parentWidth, onChange, 
   }
 
   const onDocumentKeyDown = (event: KeyboardEvent) => {
-    if (text.editable && (event.key === 'Escape' || (event.key === 'Enter' && !event.shiftKey))) {
-      event.stopPropagation()
+    if (propagateTextChanges.current && (event.key === 'Escape' || (event.key === 'Enter' && !event.shiftKey))) {
       finishEdit()
     }
   }
 
   const finishEdit = () => {
-    onChange({ id: text.id, editable: false })
+    setEditState(false)
   }
 
   const onMouseMove = (event: MouseEvent) => onDrag(event.clientX, event.clientY)
@@ -378,7 +373,7 @@ const TextAnnotation: FC<Props> = ({ text, parentHeight, parentWidth, onChange, 
         <path className="arrow-head" d={head.path} transform={head.transform} ref={headRef} />
         <path className={lineClass} d={linePath} ref={lineRef} mask={lineMask} />
       </svg>
-      <TextAnchor x={textX} y={textY} onDeleteButtonClick={_onDeleteButtonClick}>
+      <TextAnchor x={textX} y={textY} onDeleteButtonClick={_onDeleteButtonClick} hideButtonWhenEnterPressed>
         <div className="text" ref={textRef} onMouseDown={onTextMouseDown}>
           <Editor
             editorState={editorState}

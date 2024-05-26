@@ -6,15 +6,15 @@ interface Props {
   x: number
   y: number
   rotate?: number
+  hideButtonWhenEnterPressed?: boolean
   children: ReactNode
 }
 
-const TextAnchor: FC<Props> = ({ onDeleteButtonClick, x, y, rotate, children }) => {
+const TextAnchor: FC<Props> = ({ onDeleteButtonClick, x, y, rotate, children, hideButtonWhenEnterPressed }) => {
   const [buttonShowing, setButtonShowing] = useState<boolean>(false)
   const [justCreated, setJustCreated] = useState<boolean>(true)
   const textBoxRef = useRef<HTMLDivElement>(null)
   const deleteButtonRef = useRef<HTMLButtonElement>(null)
-
   const mounted = useRef<boolean>(false)
 
   const onClick = () => setButtonShowing(true)
@@ -29,8 +29,8 @@ const TextAnchor: FC<Props> = ({ onDeleteButtonClick, x, y, rotate, children }) 
     }
   }
 
-  const onDocumentKeyDown = (e: KeyboardEvent) => {
-    if (e.key === 'Escape') {
+  const onDocumentKeyDown = (event: KeyboardEvent) => {
+    if (event.key === 'Escape' || (hideButtonWhenEnterPressed && event.key === 'Enter' && !event.shiftKey)) {
       setButtonShowing(false)
     }
   }
@@ -65,7 +65,7 @@ const TextAnchor: FC<Props> = ({ onDeleteButtonClick, x, y, rotate, children }) 
 
   return (
     <div
-      className={`text-anchor ${buttonShowing ? ' button-showing' : ''} ${justCreated ? ' just-created' : ''}`}
+      className={`text-anchor ${buttonShowing ? 'button-showing' : ''} ${justCreated ? 'just-created' : ''}`}
       style={{
         left: x,
         top: y,

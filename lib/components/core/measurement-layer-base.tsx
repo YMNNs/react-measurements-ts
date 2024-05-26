@@ -1,3 +1,4 @@
+import type React from 'react'
 import { type Dispatch, type FC, type SetStateAction, useEffect, useRef } from 'react'
 import LineMeasurement from './line-measurement.js'
 import TextAnnotation from './text-annotation.tsx'
