@@ -1,11 +1,11 @@
-# react-measurements-ts
+# React Measurements TS
 
 This is a fork of [rmfisher/react-measurements](https://github.com/rmfisher/react-measurements). It was forked and published on npm under react-measurements-ts in order to address the following issues/features:
 
 - 🔥 Upgrade to React 18
 - 🛠️ Refactor with TypeScript and functional components (`React.FC`)
 - 🛠️ Fix `Uncaught ReferenceError: global is not defined` when using Vite dev server
-- 🆕 Supports measurement in rectangular areas of **unequal length and width**
+- 🆕 Supports measurement in rectangular areas of **unequal width and height**
 
 A React component for measuring &amp; annotating images.
 
