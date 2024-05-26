@@ -1,6 +1,6 @@
 import type React from 'react'
 import { type FC, useEffect, useRef, useState } from 'react'
-import Draft, { type ContentState, Editor, EditorState } from 'draft-js'
+import Draft, { ContentState, Editor, EditorState } from 'draft-js'
 import TextAnchor from './text-anchor.js'
 import { type Text } from '../../types'
 import { clamp } from '../../utils/measurement-utils.ts'
@@ -39,6 +39,7 @@ const TextAnnotation: FC<Props> = ({ text, parentHeight, parentWidth, onChange, 
   const lineDragInProgress = useRef<boolean>(false)
   const headDragInProgress = useRef<boolean>(false)
   const dragOccurred = useRef<boolean>(false)
+  const editorStateRef = useRef<EditorState>(EditorState.createWithContent(ContentState.createFromText(text.content)))
 
   const [lineHover, setLineHover] = useState<boolean>(false)
   const [headHover, setHeadHover] = useState<boolean>(false)
@@ -272,7 +273,8 @@ const TextAnnotation: FC<Props> = ({ text, parentHeight, parentWidth, onChange, 
 
   const onTextChange = (editorState: EditorState) => {
     if (propagateTextChanges.current) {
-      onChange({ id: text.id, editorState })
+      editorStateRef.current = editorState
+      onChange({ id: text.id, content: editorState.getCurrentContent().getPlainText() })
     }
   }
 
@@ -280,7 +282,7 @@ const TextAnnotation: FC<Props> = ({ text, parentHeight, parentWidth, onChange, 
 
   const startEdit = () => {
     if (!text.editable) {
-      contentStateOnEditStart.current = text.editorState.getCurrentContent()
+      contentStateOnEditStart.current = editorStateRef.current.getCurrentContent()
       setEditState(true)
     }
   }
@@ -288,8 +290,8 @@ const TextAnnotation: FC<Props> = ({ text, parentHeight, parentWidth, onChange, 
   const setEditState = (editable: boolean) => {
     propagateTextChanges.current = editable
     // Note: selection change is also important when we finish editing because it clears the selection.
-    const editorState = EditorState.moveFocusToEnd(EditorState.moveSelectionToEnd(text.editorState))
-    onChange({ id: text.id, editorState, editable })
+    editorStateRef.current = EditorState.moveFocusToEnd(EditorState.moveSelectionToEnd(editorStateRef.current))
+    onChange({ id: text.id, editable })
   }
 
   const _onDeleteButtonClick = () => onDeleteButtonClick(text)
@@ -333,8 +335,8 @@ const TextAnnotation: FC<Props> = ({ text, parentHeight, parentWidth, onChange, 
     ? drawHead(pointX, pointY, headHoverWidth, headHoverHeight, rotate, headHoverOffset, cos, sin)
     : drawHead(pointX, pointY, headWidth, headHeight, rotate, 0, 0, 0)
 
-  const editorState = text.editorState
-  const hasText = editorState && editorState.getCurrentContent() && editorState.getCurrentContent().hasText()
+  const editorState = editorStateRef.current
+  const hasText = editorState.getCurrentContent().hasText()
   const textVisible = hasText || text.editable
   const rootClass = 'text-annotation' + (hasText ? '' : ' no-text') + (text.editable ? ' editable' : '')
 
@@ -379,7 +381,7 @@ const TextAnnotation: FC<Props> = ({ text, parentHeight, parentWidth, onChange, 
       <TextAnchor x={textX} y={textY} onDeleteButtonClick={_onDeleteButtonClick}>
         <div className="text" ref={textRef} onMouseDown={onTextMouseDown}>
           <Editor
-            editorState={editorState ?? EditorState.createEmpty()}
+            editorState={editorState}
             readOnly={!text.editable}
             onChange={onTextChange}
             onBlur={finishEdit}

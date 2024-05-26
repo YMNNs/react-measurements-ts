@@ -1,8 +1,6 @@
-import type React from 'react'
 import { type Dispatch, type FC, type SetStateAction, useEffect, useRef } from 'react'
 import LineMeasurement from './line-measurement.js'
 import TextAnnotation from './text-annotation.tsx'
-import { EditorState } from 'draft-js'
 import './measurement-layer-base.css'
 import { type Circle, type Line, type Measurement, type Mode, type Text } from '../../types'
 import { clamp, getNextId } from '../../utils/measurement-utils.ts'
@@ -21,7 +19,6 @@ interface Props {
 
 const finishEdit = (text: Text) => ({
   ...text,
-  editorState: EditorState.moveFocusToEnd(EditorState.moveSelectionToEnd(text.editorState)),
   editable: false,
 })
 
@@ -231,7 +228,7 @@ const MeasurementLayerBase: FC<Props> = ({
         arrowY,
         textX,
         textY,
-        editorState: EditorState.createEmpty(),
+        content: '',
         editable: true,
       }
       onChange(prevState => [...prevState, text])

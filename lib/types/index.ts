@@ -1,5 +1,3 @@
-import { type EditorState } from 'draft-js'
-
 interface MeasurementBase {
   id: number
   type: Mode
@@ -23,7 +21,7 @@ export interface Text extends MeasurementBase {
   arrowY: number
   textX: number
   textY: number
-  editorState: EditorState
+  content: string
   editable: boolean
 }
 
