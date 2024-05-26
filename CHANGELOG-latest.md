@@ -1,5 +1,5 @@
-## [1.1.3](https://github.com/YMNNs/react-measurements-ts/compare/v1.1.2...v1.1.3) (2024-05-25)
+# [1.2.0](https://github.com/YMNNs/react-measurements-ts/compare/v1.1.3...v1.2.0) (2024-05-26)
 
-### Bug Fixes
+### Features
 
-- Dragging the edge of the circle will exceed the boundary ([42e17ba](https://github.com/YMNNs/react-measurements-ts/commit/42e17bac317879514ff7f0be18139b40ff27a687))
+- Remove the `EditorState` property from the text component and replace it with `content` of type `string`. For the `measurements[]` passed from `props`, you should use the `content` attribute, which is the text on the tag. ([2ef3aec](https://github.com/YMNNs/react-measurements-ts/commit/2ef3aec64862f9ed761cdcfeb52a9d87685aeaee))
