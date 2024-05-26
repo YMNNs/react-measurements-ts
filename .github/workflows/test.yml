@@ -1,0 +1,22 @@
+name: test.yml
+on: pull_request
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          registry-url: https://registry.npmjs.org/
+      - name: Install
+        run: |
+          npm ci
+          ls
+      - name: Build lib
+        run: npm run build:lib
+      - name: Build demo
+        run: npm run build:demo

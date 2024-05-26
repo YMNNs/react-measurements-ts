@@ -3,7 +3,7 @@
   "extends": ["config:recommended"],
   "npmrcMerge": true,
   "rebaseWhen": "conflicted",
-  "schedule": ["on Sunday"],
+  "schedule": ["before 4am on Sunday"],
   "packageRules": [
     {
       "matchUpdateTypes": ["minor", "patch"],
