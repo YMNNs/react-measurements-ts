@@ -55,7 +55,11 @@ const MeasurementApp: FC = () => {
             <MeasuredImage onImageLoaded={onImageLoaded} measurements={measurements} onChange={setMeasurements} />
           </div>
           <div className={'extra'}>
-            <p style={{ textAlign: 'center' }}>Fig. 1: Pollen grains under an electron microscope.</p>
+            <p style={{ textAlign: 'center' }}>
+              Fig. 1: Pollen grains under an electron microscope.
+              <br />
+              (width and height can be unequal)
+            </p>
           </div>
           <div className={'extra'}>
             <pre>{JSON.stringify(measurements, undefined, 2)}</pre>

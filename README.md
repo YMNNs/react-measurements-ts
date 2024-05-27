@@ -5,7 +5,7 @@ This is a fork of [rmfisher/react-measurements](https://github.com/rmfisher/reac
 - 🔥 Upgrade to React 18
 - 🛠️ Refactor with TypeScript and functional components (`React.FC`)
 - 🛠️ Fix `Uncaught ReferenceError: global is not defined` when using Vite dev server
-- 🆕 Supports measurement in rectangular areas of **unequal width and height**
+- 🆕 Also works with rectangular areas of **unequal width and height**
 
 A React component for measuring &amp; annotating images.
 
@@ -28,7 +28,7 @@ import {
 } from 'react-measurements-ts'
 
 const width = 800
-const height = 500 // Not equal to the width
+const height = 500 // unequal to the width
 
 const measureLine = (line: Line) => Math.round(calculateDistance(line, width, height)) + ' μm'
 const measureCircle = (circle: Circle) => Math.round(calculateArea(circle, width, height) / 10) * 10 + ' μm²'
