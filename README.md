@@ -47,8 +47,6 @@ const App: FC = () => {
       <img src={pollenImage} alt={'Pollen grains'} style={{ width: width, height: height }} />
       <MeasurementLayer
         measurements={measurements}
-        widthInPx={width}
-        heightInPx={height}
         onChange={setMeasurements}
         measureLine={measureLine}
         measureCircle={measureCircle}

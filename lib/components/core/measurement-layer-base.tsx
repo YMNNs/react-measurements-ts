@@ -11,8 +11,6 @@ import CircleMeasurement, { minRadiusInPx } from './circle-measurement.tsx'
 interface Props {
   mode: Mode | undefined
   measurements: Measurement[]
-  widthInPx: number
-  heightInPx: number
   measureLine: (line: Line) => string
   measureCircle: (circle: Circle) => string
   onCommit: (measurement: Measurement) => void
@@ -24,16 +22,7 @@ const finishEdit = (text: Text) => ({
   editable: false,
 })
 
-const MeasurementLayerBase: FC<Props> = ({
-  mode,
-  measurements,
-  widthInPx,
-  heightInPx,
-  measureLine,
-  measureCircle,
-  onCommit,
-  onChange,
-}) => {
+const MeasurementLayerBase: FC<Props> = ({ mode, measurements, measureLine, measureCircle, onCommit, onChange }) => {
   const createdId = useRef<number>()
   const rootRef = useRef<HTMLDivElement>(null)
   const [widthInPx, setWidthInPx] = useState<number>(0)
@@ -281,10 +270,14 @@ const MeasurementLayerBase: FC<Props> = ({
     }
   }
 
-  const className = 'measurement-layer-base' + (mode ? ' any-mode-on' : '')
   return (
-    <div className={className} ref={rootRef} onMouseDown={onMouseDown} onClick={onClick}>
-      {measurements.map(element => createMeasurementComponent(element))}
+    <div
+      className={'measurement-layer-base' + (mode ? ' any-mode-on' : '')}
+      ref={rootRef}
+      onMouseDown={onMouseDown}
+      onClick={onClick}
+    >
+      {ready && measurements.map(element => createMeasurementComponent(element))}
     </div>
   )
 }

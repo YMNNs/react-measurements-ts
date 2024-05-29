@@ -5,8 +5,6 @@ import './measurement-layer.css'
 import { type Circle, type Line, type Measurement, type Mode } from '../types'
 
 interface Props extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange'> {
-  widthInPx: number
-  heightInPx: number
   measurements: Measurement[]
   onChange: Dispatch<SetStateAction<Measurement[]>>
   onCommit?: (measurement: Measurement) => void
@@ -15,9 +13,8 @@ interface Props extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange'> {
 }
 
 const MeasurementLayer = forwardRef<HTMLDivElement, Props>(
-  ({ widthInPx, heightInPx, measurements, onChange, measureLine, measureCircle, onCommit, ...restProps }, ref) => {
+  ({ measurements, onChange, measureLine, measureCircle, onCommit, ...restProps }, ref) => {
     const [mode, setMode] = useState<Mode | undefined>()
-
     const toggleMode = (_mode: Mode) => setMode(_mode === mode ? undefined : _mode)
 
     const _onCommit = (measurement: Measurement) => {
@@ -28,22 +25,17 @@ const MeasurementLayer = forwardRef<HTMLDivElement, Props>(
     }
 
     return (
-      widthInPx > 0 &&
-      heightInPx > 0 && (
-        <div className="measurement-layer" ref={ref} {...restProps}>
-          <MeasurementLayerBase
-            measurements={measurements}
-            onChange={onChange}
-            widthInPx={widthInPx}
-            heightInPx={heightInPx}
-            measureLine={measureLine}
-            measureCircle={measureCircle}
-            mode={mode}
-            onCommit={_onCommit}
-          />
-          <MeasurementButtons mode={mode} onClick={toggleMode} />
-        </div>
-      )
+      <div className="measurement-layer" ref={ref} {...restProps}>
+        <MeasurementLayerBase
+          measurements={measurements}
+          onChange={onChange}
+          measureLine={measureLine}
+          measureCircle={measureCircle}
+          mode={mode}
+          onCommit={_onCommit}
+        />
+        <MeasurementButtons mode={mode} onClick={toggleMode} />
+      </div>
     )
   },
 )
