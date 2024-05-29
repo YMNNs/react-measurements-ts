@@ -1,4 +1,5 @@
 import type React from 'react'
+import { useState } from 'react'
 import { type Dispatch, type FC, type SetStateAction, useEffect, useRef } from 'react'
 import LineMeasurement from './line-measurement.js'
 import TextAnnotation from './text-annotation.tsx'
@@ -35,16 +36,41 @@ const MeasurementLayerBase: FC<Props> = ({
 }) => {
   const createdId = useRef<number>()
   const rootRef = useRef<HTMLDivElement>(null)
+  const [widthInPx, setWidthInPx] = useState<number>(0)
+  const [heightInPx, setHeightInPx] = useState<number>(0)
+  const [ready, setReady] = useState<boolean>(false)
+
+  const widthInPxLatest = useRef<number>(widthInPx)
+  const heightInPxLatest = useRef<number>(heightInPx)
 
   useEffect(() => {
     document.addEventListener('mousemove', onMouseMove)
     window.addEventListener('mouseup', onMouseUp)
     window.addEventListener('blur', endDrag)
+    if (rootRef.current) {
+      setWidthInPx(rootRef.current.clientWidth)
+      setHeightInPx(rootRef.current.clientHeight)
+      setReady(true)
+    }
+    const observer = new ResizeObserver(entries => {
+      for (const entry of entries) {
+        const { width, height } = entry.contentRect
+        widthInPxLatest.current = width
+        heightInPxLatest.current = height
+        setWidthInPx(width)
+        setHeightInPx(height)
+      }
+    })
+
+    if (rootRef.current) {
+      observer.observe(rootRef.current)
+    }
 
     return () => {
       document.removeEventListener('mousemove', onMouseMove)
       window.removeEventListener('mouseup', onMouseUp)
       window.removeEventListener('blur', endDrag)
+      observer.disconnect()
     }
   }, [])
 
@@ -125,14 +151,14 @@ const MeasurementLayerBase: FC<Props> = ({
   const onMouseMove = (event: MouseEvent) => {
     if (lineCreationInProgress.current) {
       const rect = rootRef.current!.getBoundingClientRect()
-      const endX = clamp((event.clientX - rect.left) / widthInPx)
-      const endY = clamp((event.clientY - rect.top) / heightInPx)
+      const endX = clamp((event.clientX - rect.left) / widthInPxLatest.current)
+      const endY = clamp((event.clientY - rect.top) / heightInPxLatest.current)
       if (createdId.current) {
         _onChange({ id: createdId.current, endX, endY })
       } else {
         createdId.current = getNextId()
-        const startX = clamp((mouseXAtPress.current - rect.left) / widthInPx)
-        const startY = clamp((mouseYAtPress.current - rect.top) / heightInPx)
+        const startX = clamp((mouseXAtPress.current - rect.left) / widthInPxLatest.current)
+        const startY = clamp((mouseYAtPress.current - rect.top) / heightInPxLatest.current)
         const line: Measurement = {
           id: createdId.current,
           type: 'line',
@@ -153,9 +179,9 @@ const MeasurementLayerBase: FC<Props> = ({
         _onChange({ id: createdId.current, radius } as Measurement)
       } else {
         createdId.current = getNextId()
-        const centerX = clamp((mouseXAtPress.current - rect.left) / widthInPx)
+        const centerX = clamp((mouseXAtPress.current - rect.left) / widthInPxLatest.current)
         previousCenterX.current = centerX
-        const centerY = clamp((mouseYAtPress.current - rect.top) / heightInPx)
+        const centerY = clamp((mouseYAtPress.current - rect.top) / heightInPxLatest.current)
         previousCenterY.current = centerY
         const radius = calculateRadius(cursorX, cursorY, centerX, centerY)
         const circle: Measurement = {
@@ -172,24 +198,26 @@ const MeasurementLayerBase: FC<Props> = ({
   }
 
   const calculateRadius = (cursorX: number, cursorY: number, centerX: number, centerY: number) => {
-    const deltaX = cursorX - centerX * widthInPx
-    const deltaY = cursorY - centerY * heightInPx
-    const radiusInPx = Math.max(Math.hypot(deltaX, deltaY), minRadiusInPx)
-    let radius = radiusInPx / Math.abs(widthInPx)
+    const deltaX = cursorX - centerX * widthInPxLatest.current
+    const deltaY = cursorY - centerY * heightInPxLatest.current
+    let radius = Math.max(Math.hypot(deltaX, deltaY), minRadiusInPx)
 
-    if (centerX + radius > 1) {
-      radius = 1 - centerX
+    const w = widthInPxLatest.current
+    const h = heightInPxLatest.current
+
+    if (centerX + radius / w > 1) {
+      radius = (1 - centerX) * w
     }
-    if (centerX - radius < 0) {
-      radius = centerX
+    if (centerX - radius / w < 0) {
+      radius = centerX * w
     }
-    if (centerY + radius > 1) {
-      radius = 1 - centerY
+    if (centerY + radius / h > 1) {
+      radius = (1 - centerY) * h
     }
-    if (centerY - radius < 0) {
-      radius = centerY
+    if (centerY - radius / h < 0) {
+      radius = centerY * h
     }
-    return radius
+    return radius / Math.sqrt(w * h)
   }
 
   const onMouseUp = () => endDrag()
@@ -216,8 +244,8 @@ const MeasurementLayerBase: FC<Props> = ({
     if (mode === 'text') {
       const id = getNextId()
       const rect = rootRef.current!.getBoundingClientRect()
-      const arrowX = (event.clientX - rect.left) / widthInPx
-      const arrowY = (event.clientY - rect.top) / heightInPx
+      const arrowX = (event.clientX - rect.left) / widthInPxLatest.current
+      const arrowY = (event.clientY - rect.top) / heightInPxLatest.current
       const xOffsetDirection = arrowX < 0.8 ? 1 : -1
       const yOffsetDirection = arrowY < 0.8 ? 1 : -1
       const textX = arrowX + xOffsetDirection * 0.05
