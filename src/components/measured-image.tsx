@@ -1,8 +1,8 @@
 import { type Dispatch, type FC, type SetStateAction, useEffect, useRef, useState } from 'react'
 import pollenImage from '../assets/pollen.jpg'
 import { type Circle, type Line, type Measurement } from '../../lib/types'
-import { calculateArea, calculateDistance } from '../../lib/utils/measurement-utils.ts'
-import MeasurementLayer from '../../lib/components/measurement-layer.tsx'
+import { calculateArea, calculateDistance } from '../../lib/main.ts'
+import { MeasurementLayer } from '../../lib/main.ts'
 
 interface Props {
   onImageLoaded: () => void
