@@ -1,3 +1,9 @@
+## [1.3.1](https://github.com/YMNNs/react-measurements-ts/compare/v1.3.0...v1.3.1) (2024-05-30)
+
+### Bug Fixes
+
+- replace `CHANGELOG-latest.md` with complete `CHANGELOG.md` ([0cbb70d](https://github.com/YMNNs/react-measurements-ts/commit/0cbb70dbb277606ccdc07e8290f5f58a1393ec00))
+
 # [1.3.0](https://github.com/YMNNs/react-measurements-ts/compare/v1.2.1...v1.3.0) (2024-05-29)
 
 ### Bug Fixes
