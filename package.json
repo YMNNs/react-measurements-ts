@@ -37,15 +37,14 @@
   "lint-staged": {
     "*.md": "lint-md -f",
     "**/*.{js,jsx,ts,tsx,cjs}": "eslint --fix",
-    "**/*.css": "stylelint --fix",
     "**/*": "prettier -c --ignore-unknown --write"
   },
   "dependencies": {
     "draft-js": "^0.11.7"
   },
   "peerDependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react": "^18",
+    "react-dom": "^18"
   },
   "devDependencies": {
     "@lint-md/cli": "^2.0.0",
