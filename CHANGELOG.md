@@ -1,3 +1,9 @@
+## [1.3.2](https://github.com/YMNNs/react-measurements-ts/compare/v1.3.1...v1.3.2) (2024-06-23)
+
+### Bug Fixes
+
+- fix warnings in 18.0.0 <= React < 18.2.0 ([b83e542](https://github.com/YMNNs/react-measurements-ts/commit/b83e542fed428ef7248fcfd19ac624ffb1210e70))
+
 ## [1.3.1](https://github.com/YMNNs/react-measurements-ts/compare/v1.3.0...v1.3.1) (2024-05-30)
 
 ### Bug Fixes
