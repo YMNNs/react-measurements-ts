@@ -6,7 +6,7 @@ import { libInjectCss } from 'vite-plugin-lib-inject-css'
 import { name, peerDependencies } from './package.json'
 
 const libOptions: UserConfig = {
-  plugins: [react(), libInjectCss(), dts({ include: ['lib'], rollupTypes: true })],
+  plugins: [react(), libInjectCss(), dts({ rollupTypes: true, tsconfigPath: './tsconfig.build.json' })],
   build: {
     outDir: 'dist',
     lib: {
