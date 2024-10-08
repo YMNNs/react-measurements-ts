@@ -53,7 +53,7 @@ const TextAnnotation: FC<Props> = ({ text, parentHeight, parentWidth, onChange, 
   useEffect(() => {
     document.addEventListener('mousemove', onMouseMove)
     document.addEventListener('keydown', onDocumentKeyDown, true)
-    window.addEventListener('mouseup', onMouseUp)
+    globalThis.addEventListener('mouseup', onMouseUp)
     window.addEventListener('blur', endDrag)
     if (editorRef.current && text.editable) {
       propagateTextChanges.current = true
@@ -63,7 +63,7 @@ const TextAnnotation: FC<Props> = ({ text, parentHeight, parentWidth, onChange, 
     return () => {
       document.removeEventListener('mousemove', onMouseMove)
       document.removeEventListener('keydown', onDocumentKeyDown, true)
-      window.removeEventListener('mouseup', onMouseUp)
+      globalThis.removeEventListener('mouseup', onMouseUp)
       window.removeEventListener('blur', endDrag)
     }
   }, [])

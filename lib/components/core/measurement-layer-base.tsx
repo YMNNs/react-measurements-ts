@@ -34,7 +34,7 @@ const MeasurementLayerBase: FC<Props> = ({ mode, measurements, measureLine, meas
 
   useEffect(() => {
     document.addEventListener('mousemove', onMouseMove)
-    window.addEventListener('mouseup', onMouseUp)
+    globalThis.addEventListener('mouseup', onMouseUp)
     window.addEventListener('blur', endDrag)
     if (rootRef.current) {
       setWidthInPx(rootRef.current.clientWidth)
@@ -57,7 +57,7 @@ const MeasurementLayerBase: FC<Props> = ({ mode, measurements, measureLine, meas
 
     return () => {
       document.removeEventListener('mousemove', onMouseMove)
-      window.removeEventListener('mouseup', onMouseUp)
+      globalThis.removeEventListener('mouseup', onMouseUp)
       window.removeEventListener('blur', endDrag)
       observer.disconnect()
     }

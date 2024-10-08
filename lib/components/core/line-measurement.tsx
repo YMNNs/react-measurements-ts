@@ -31,12 +31,12 @@ const LineMeasurement: FC<Props> = ({
 
   useEffect(() => {
     document.addEventListener('mousemove', onMouseMove)
-    window.addEventListener('mouseup', onMouseUp)
+    globalThis.addEventListener('mouseup', onMouseUp)
     window.addEventListener('blur', endDrag)
 
     return () => {
       document.removeEventListener('mousemove', onMouseMove)
-      window.removeEventListener('mouseup', onMouseUp)
+      globalThis.removeEventListener('mouseup', onMouseUp)
       window.removeEventListener('blur', endDrag)
     }
   }, [])
