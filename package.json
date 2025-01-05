@@ -53,11 +53,11 @@
     "@lint-md/cli": "^2.0.0",
     "@tsconfig/vite-react": "^3.4.0",
     "@types/draft-js": "^0.11.18",
-    "@types/node": "^22.10.2",
+    "@types/node": "^22.10.5",
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",
-    "@typescript-eslint/eslint-plugin": "^8.18.2",
-    "@typescript-eslint/parser": "^8.18.2",
+    "@typescript-eslint/eslint-plugin": "^8.19.0",
+    "@typescript-eslint/parser": "^8.19.0",
     "@vitejs/plugin-react-swc": "^3.7.2",
     "conventional-changelog": "^6.0.0",
     "conventional-changelog-cli": "^5.0.0",
@@ -76,8 +76,8 @@
     "stylelint": "^16.12.0",
     "stylelint-config-standard": "^36.0.1",
     "typescript": "^5.7.2",
-    "vite": "^6.0.6",
+    "vite": "^6.0.7",
     "vite-plugin-dts": "^4.4.0",
-    "vite-plugin-lib-inject-css": "^2.2.0"
+    "vite-plugin-lib-inject-css": "^2.2.1"
   }
 }
